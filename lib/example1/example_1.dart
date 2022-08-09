@@ -1,23 +1,28 @@
-import 'package:example_graphql/main.dart';
+import 'package:example_graphql/example1/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
-import 'costants.dart';
+import '../costants.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+class Example1 extends StatefulWidget {
+  const Example1({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<Example1> createState() => _Example1State();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _Example1State extends State<Example1> {
   final gQuery = r"""
-                    query{
-                      continents{
-                        name
-                        code
+                  query GetProducts 
+                    {
+                      products(first: 22, channel: "default-channel") {
+                        edges {
+                          node {
+                            id
+                            name
+                            description
+                          }
+                        }
                       }
                     }
                   """;
@@ -25,13 +30,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final HttpLink httpLink = HttpLink(
-      kHasuraParseUrl,
-      defaultHeaders: {
-        'X-Parse-Application-Id': kParseApplicationId,
-        'X-Parse-Client-Key': kParseClientKey,
-        'x-hasura-admin-secret':
-            'gyi06BmV0d8LQisxsvPpLH0SvNFhTAFVjKirtzVKM4h0rcpAwY70on1SiVjfTz69',
-      },
+      kDemoSaleorIoUrl,
     );
 
     ValueNotifier<GraphQLClient> client = ValueNotifier(
@@ -45,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
       client: client,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('test'),
+          title: const Text('test'),
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -54,7 +53,19 @@ class _MyHomePageState extends State<MyHomePage> {
               document: gql(gQuery),
             ),
             builder: (QueryResult result, {fetchMore, refetch}) {
-              print('ddsd: ${result.data}');
+              if (result.hasException) {
+                return Center(
+                  child: Text(result.exception.toString()),
+                );
+              }
+
+              if (result.isLoading) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              print('result data: ${result.data}');
+
+              final data = ProductModel.fromJson(result.data!);
 
               return SingleChildScrollView(
                 child: Column(
@@ -70,12 +81,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: result.data!['continents'].length,
+                        itemCount: data.products.edges.length,
                         itemBuilder: (context, index) {
                           print('ddsd: ${result.data}');
 
                           return Text(
-                              result.data!['continents'][index]['name']);
+                              '${index + 1}:  ${data.products.edges[index].node.name}');
                         })
                   ],
                 ),
