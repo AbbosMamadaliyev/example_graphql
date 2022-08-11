@@ -5,3 +5,4 @@ String kCountriesParseUrl = "https://countries.trevorblades.com/";
 String kParseServerUrl3 = "https://api.mocki.io/v2/c4d7a195/graphql";
 String kHasuraParseUrl = "https://discrete-whale-50.hasura.app/v1/graphql";
 String kDemoSaleorIoUrl = "https://demo.saleor.io/graphql/";
+String kRickAndMortyUrl = "https://rickandmortyapi.com/graphql";
