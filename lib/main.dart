@@ -1,13 +1,18 @@
-import 'package:example_graphql/rick_and_morty/presentation/multi_home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:gql_http_link/gql_http_link.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
-import 'costants.dart';
+import 'footbal_clubs/presentation/clubs_home_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  final HttpLink httpLink = HttpLink(kRickAndMortyUrl);
+  final HttpLink httpLink = HttpLink(
+    'https://discrete-whale-50.hasura.app/v1/graphql',
+    defaultHeaders: {
+      "x-hasura-admin-secret":
+          "gyi06BmV0d8LQisxsvPpLH0SvNFhTAFVjKirtzVKM4h0rcpAwY70on1SiVjfTz69"
+    },
+  );
 
   ValueNotifier<GraphQLClient> client = ValueNotifier(
     GraphQLClient(
@@ -34,7 +39,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MultiHomePage(),
+      home: const FootballHomePage(),
     );
   }
 }

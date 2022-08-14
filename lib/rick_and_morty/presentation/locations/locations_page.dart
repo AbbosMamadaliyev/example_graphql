@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 import '../../queries/queries.dart';
-import '../episodes/episode_details_page.dart';
 import 'location_details_page.dart';
 
 class LocationsPage extends StatefulWidget {

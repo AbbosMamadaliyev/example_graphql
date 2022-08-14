@@ -1,5 +1,5 @@
 //Get all characters
-final String getAllCharacters = """
+const String getAllCharacters = """
 query allCharacters(\$page: Int!) {
   characters(page: \$page) {
     info {
@@ -20,7 +20,7 @@ query allCharacters(\$page: Int!) {
 """;
 
 //Get all episodes
-final String getAllEpisodes = """
+const String getAllEpisodes = """
 query allEpisodes(\$page: Int!)  {
   episodes(page: \$page) {
     info {
