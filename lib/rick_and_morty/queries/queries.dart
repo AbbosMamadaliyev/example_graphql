@@ -18,7 +18,7 @@ query allCharacters(\$page: Int!) {
   }
 }
 """;
-
+//test github
 //Get all episodes
 const String getAllEpisodes = """
 query allEpisodes(\$page: Int!)  {
